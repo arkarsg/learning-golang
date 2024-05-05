@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"datastructures/lists"
+	lists "datastructures/lists/linked_list"
 )
 
 func main() {

@@ -1,21 +1,20 @@
-package main
+package linked_list
 
 import (
 	"testing"
 	"github.com/stretchr/testify/assert"
-	"datastructures/lists"
 )
 
 func TestLinkedList(t *testing.T) {
 	t.Run("Create an empty LinkedList", func(t *testing.T) {
-		actual := lists.NewLinkedList()
+		actual := NewLinkedList()
 		if actual.Length() != 0 {
 			t.Errorf("Expected length of 0, got %d", actual.Length())
 		}
 	})
 
 	t.Run("Append elements to LinkedList", func(t *testing.T) {
-		l := lists.NewLinkedList()
+		l := NewLinkedList()
 		l.Append(1)
 		l.Append(2)
 		l.Append(3)
@@ -30,7 +29,7 @@ func TestLinkedList(t *testing.T) {
 	})
 
 	t.Run("Prepend elements to LinkedList", func(t *testing.T) {
-		l := lists.NewLinkedList()
+		l := NewLinkedList()
 		l.Prepend(3)
 		l.Prepend(2)
 		l.Prepend(1)
@@ -45,7 +44,7 @@ func TestLinkedList(t *testing.T) {
 	})
 
 	t.Run("Create linked list from array", func(t *testing.T) {
-		l := lists.FromArray([]int{1, 2, 3})
+		l := FromArray([]int{1, 2, 3})
 
 		if l.Length() != 3 {
 			t.Errorf("Expected length of 3, got %d", l.Length())
@@ -57,7 +56,7 @@ func TestLinkedList(t *testing.T) {
 	})
 
 	t.Run("Create empty linkedlist from array", func(t *testing.T) {
-		l := lists.FromArray([]int{})
+		l := FromArray([]int{})
 		assert.Equal(t, l.Length(), 0, "LinkedList from an empty array should have 0 length")
 	})
 
@@ -92,14 +91,14 @@ func TestLinkedList(t *testing.T) {
 	})
 
 	t.Run("Get from empty list returns nil", func(t *testing.T) {
-		l := lists.NewLinkedList()
+		l := NewLinkedList()
 		actual := l.Get(0)
 		assert.Nil(t, actual)
 	})
 
 	t.Run("Insert at 0-th index empty LinkedList", func(t *testing.T) {
 		expectedLength := 1
-		l := lists.NewLinkedList()
+		l := NewLinkedList()
 		l.Insert(0, 5)
 		actualLength := l.Length()
 
@@ -108,7 +107,7 @@ func TestLinkedList(t *testing.T) {
 
 	t.Run("Insert at non-zero index empty LinkedList", func(t *testing.T) {
 		expectedLength := 0
-		l := lists.NewLinkedList()
+		l := NewLinkedList()
 		l.Insert(2, 5)
 		actualLength := l.Length()
 
@@ -178,8 +177,8 @@ func TestLinkedList(t *testing.T) {
 
 }
 
-func buildTestLinkedList(t testing.TB) *lists.LinkedList {
+func buildTestLinkedList(t testing.TB) *LinkedList {
 	t.Helper()
-	l := lists.FromArray([]int{3, 4, 5, 6, 7})
+	l := FromArray([]int{3, 4, 5, 6, 7})
 	return l
 }
