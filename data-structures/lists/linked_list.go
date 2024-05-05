@@ -97,3 +97,52 @@ func (l *LinkedList) Get(idx int) *Node {
 	}
 	return currNode
 }
+
+func (l *LinkedList) Insert(idx int, val int) {
+	if idx < 0 || idx > l.Length() {
+		return
+	}
+
+	if l.head == nil || idx == 0 {
+		l.Prepend(val)
+		return
+	}
+
+	if idx == l.Length() {
+		l.Append(val)
+		return
+	}
+
+	nodeAdded := &Node{Value: val}
+	prev := l.Get(idx - 1)
+	after := prev.Next
+	nodeAdded.Next = after
+	prev.Next = nodeAdded
+	l.length++
+}
+
+func (l *LinkedList) Remove(idx int) {
+	if idx < 0 || idx > l.Length() {
+		return
+	}
+
+	if idx == 0 {
+		tmp := l.head
+		l.head = l.head.Next
+		tmp.Next = nil
+		l.length--
+		return
+	}
+
+	prev := l.Get(idx - 1)
+    if prev == nil || prev.Next == nil {
+        return // Index out of bounds or previous node is nil, do nothing
+    }
+
+    if idx == l.length - 1 {
+    	prev.Next = nil
+     	l.tail = prev
+        l.length--
+        return
+    }
+}
