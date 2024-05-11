@@ -114,4 +114,45 @@ func TestMaxHeap(t *testing.T) {
 		sortedArray := heap.HeapSort()
 		assert.Equal(t, expected, sortedArray)
 	})
+
+	t.Run("Update value to a larger value maintains MaxHeap property", func(t *testing.T) {
+		arr := GetTestArray(t)
+		targetValue := 15
+		newValue := 40
+
+		heap := InitializeMaxHeap(t)
+		heap.Create(arr)
+		heap.UpdateValue(targetValue, newValue)
+		assert.True(
+			t,
+			HasHeapProperty(t, heap),
+		)
+	})
+
+	t.Run("Update value to a smaller value maintains MaxHeap property", func(t *testing.T) {
+		arr := GetTestArray(t)
+		targetValue := 15
+		newValue := 3
+
+		heap := InitializeMaxHeap(t)
+		heap.Create(arr)
+		heap.UpdateValue(targetValue, newValue)
+		assert.True(
+			t,
+			HasHeapProperty(t, heap),
+		)
+	})
+
+	t.Run("Delete value maintans MaxHeap property", func(t *testing.T) {
+		arr := GetTestArray(t)
+		targetValue := 15
+
+		heap := InitializeMaxHeap(t)
+		heap.Create(arr)
+		heap.DeleteValue(targetValue)
+		assert.True(
+			t,
+			HasHeapProperty(t, heap),
+		)
+	})
 }

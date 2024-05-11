@@ -75,3 +75,27 @@ func (h *MaxHeap) HeapSort() (sorted []int) {
 	}
 	return
 }
+
+func (h *MaxHeap) UpdateValue(targetValue int, newValue int) {
+	for index, value := range h.heap {
+		if value == targetValue {
+			h.heap[index] = newValue
+			if newValue > targetValue {
+				h.heapifyUp(index)
+			} else {
+				h.heapifyDown(index)
+			}
+		}
+	}
+}
+
+func (h *MaxHeap) DeleteValue(targetValue int) {
+	for index := 0; index < len(h.heap); index++ {
+		value := h.heap[index]
+		if value == targetValue {
+			h.heap[index] = h.heap[len(h.heap)-1]
+			h.heap = h.heap[:len(h.heap)-1]
+			h.heapifyDown(index)
+		}
+	}
+}
