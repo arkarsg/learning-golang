@@ -65,3 +65,13 @@ func (h *MaxHeap) ExtractMax() int {
 	}
 	return ret
 }
+
+func (h *MaxHeap) HeapSort() (sorted []int) {
+	sorted = []int{}
+	n := len(h.heap)
+	for i := 0; i < n; i++ {
+		val := h.ExtractMax()
+		sorted = append(sorted, val)
+	}
+	return
+}

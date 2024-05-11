@@ -1,10 +1,49 @@
 package maxheap
 
 import (
+	"sort"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+func HasHeapProperty(t testing.TB, h *MaxHeap) bool {
+	t.Helper()
+	n := len(h.heap)
+
+	for i := 0; i <= (n/2)-1; i++ {
+		leftChildIndex := i*2 + 1
+		rightChildIndex := i*2 + 2
+
+		if leftChildIndex < n && h.heap[leftChildIndex] > h.heap[i] {
+			return false
+		}
+
+		if rightChildIndex < n && h.heap[rightChildIndex] > h.heap[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func InitializeMaxHeap(t testing.TB) *MaxHeap {
+	t.Helper()
+	maxHeap := &MaxHeap{}
+	return maxHeap
+}
+
+func GetTestArray(t testing.TB) []int {
+	t.Helper()
+	l := []int{2, 5, 10, 15, 15, 19, 20, 30, 50}
+	return l
+}
+
+func GetDescendingSorted(t testing.TB) []int {
+	t.Helper()
+	l := GetTestArray(t)
+	sort.Sort(sort.Reverse(sort.IntSlice(l)))
+	return l
+}
 
 func TestMaxHeap(t *testing.T) {
 	t.Run("Create a MaxHeap from array", func(t *testing.T) {
@@ -65,35 +104,14 @@ func TestMaxHeap(t *testing.T) {
 			initial, heap.heap,
 		)
 	})
-}
 
-func HasHeapProperty(t testing.TB, h *MaxHeap) bool {
-	t.Helper()
-	n := len(h.heap)
+	t.Run("HeapSort creates sorted non-decreasing array", func(t *testing.T) {
+		arr := GetTestArray(t)
+		expected := GetDescendingSorted(t)
 
-	for i := 0; i <= (n/2)-1; i++ {
-		leftChildIndex := i*2 + 1
-		rightChildIndex := i*2 + 2
-
-		if leftChildIndex < n && h.heap[leftChildIndex] > h.heap[i] {
-			return false
-		}
-
-		if rightChildIndex < n && h.heap[rightChildIndex] > h.heap[i] {
-			return false
-		}
-	}
-	return true
-}
-
-func InitializeMaxHeap(t testing.TB) *MaxHeap {
-	t.Helper()
-	maxHeap := &MaxHeap{}
-	return maxHeap
-}
-
-func GetTestArray(t testing.TB) []int {
-	t.Helper()
-	l := []int{2, 5, 10, 15, 19, 20, 30, 50}
-	return l
+		heap := InitializeMaxHeap(t)
+		heap.Create(arr)
+		sortedArray := heap.HeapSort()
+		assert.Equal(t, expected, sortedArray)
+	})
 }
