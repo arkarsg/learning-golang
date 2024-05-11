@@ -58,6 +58,18 @@ func TestMaxHeap(t *testing.T) {
 		)
 	})
 
+	t.Run("FastCreate creates a MaxHeap", func(t *testing.T) {
+		arr := GetTestArray(t)
+		heap := InitializeMaxHeap(t)
+		heap.FastCreate(arr)
+		assert.True(
+			t,
+			HasHeapProperty(t, heap),
+			"MaxHeap property violated: %v",
+			heap.heap,
+		)
+	})
+
 	t.Run("Inserting a larger value maintains MaxHeap", func(t *testing.T) {
 		arr := GetTestArray(t)
 		value := 100

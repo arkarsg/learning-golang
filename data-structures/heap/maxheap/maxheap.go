@@ -49,6 +49,20 @@ func (h *MaxHeap) Create(arr []int) {
 	}
 }
 
+func (h *MaxHeap) FastCreate(arr []int) {
+	n := len(arr)
+	h.heap = []int{}
+
+	for i := 0; i < (n/2)-1; i++ {
+		h.heap = append(h.heap, arr[i])
+	}
+
+	for i := (n / 2); i < n; i++ {
+		h.heap = append(h.heap, arr[i])
+		h.heapifyUp(len(h.heap) - 1)
+	}
+}
+
 func (h *MaxHeap) ExtractMax() int {
 	if len(h.heap) == 0 {
 		panic("Heap is empty")
