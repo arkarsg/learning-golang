@@ -59,7 +59,7 @@ deterministic functions.
 
 ---
 
-# Type Aliasing
+## Type Aliasing
 Start with a `Person` struct and a setter function for `phoneNumber`
 ```go
 type Person struct {
@@ -103,7 +103,7 @@ func (p phoneNumber) valid() bool {
 }
 ```
 
-## Type aliases for functions
+### Type aliases for functions
 ```go
 func filter(is []int, predicate func(int) bool) []int {
 	out := []int{}
@@ -186,4 +186,51 @@ AdultAgeValidator := Validator{
 }
 ```
 
-# Create a simple Calculator
+## Create a simple Calculator
+- Dispatcher pattern for operators
+
+## Mock functions for testing
+We want to check if the user calling a function is authorized:
+```go
+func (a *App) Write(s string) {
+	if a.Db.IsAuthorized() {
+		a.field = s
+	} else {
+		panic("User is not authorized")
+	}
+}
+```
+This creates a contract for the `Db` struct to have `isAuthorized` function:
+```go
+type authorizationFunc func() bool
+type Db struct {
+	AuthFn authroizationFunc
+}
+
+func (d *Db) isAuthorized() bool {
+	return d.AuthFn()
+}
+```
+
+This allows us to mock `Db` better as it is not tied to any implementation of `AuthFn` or database.
+
+```go
+func TestSomeOtherPartOfTheApp(t *testing.T) {
+	app := App{
+		Db: &App.Db{
+			AuthFn: func() bool { return true },
+		}
+	}
+
+	app.StoreSomething("dummy input")
+	if app.Something != "dummy input" {
+		t.Errorf("Expected 'dummy input' but got %v\n", app.Something)
+	}
+}
+```
+
+Functions in structs allow us to implement the contract and abstract away implementation details which better decouple different modules.
+
+This in turn write better mocks. In this case, a custom `AuthFn` which alawys returns `true` in order to test some other part that does not rely on `Db`
+
+---
